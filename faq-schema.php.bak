@@ -1,0 +1,32 @@
+<?php
+/**
+ * FAQ Schema Generator
+ * 
+ * Generates structured data for FAQs based on provided array of questions and answers
+ *
+ * @param array $faqs Array of question-answer pairs with format: ['question' => 'answer']
+ * @return string JSON-LD schema markup for FAQPage
+ */
+function generate_faq_schema($faqs) {
+    // Create the basic schema structure
+    $schema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => []
+    ];
+    
+    // Add each FAQ item to the schema
+    foreach ($faqs as $question => $answer) {
+        $schema['mainEntity'][] = [
+            '@type' => 'Question',
+            'name' => $question,
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => $answer
+            ]
+        ];
+    }
+    
+    // Return the formatted JSON-LD schema
+    return '<script type="application/ld+json">' . json_encode($schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+}

@@ -1,0 +1,45 @@
+/* Cross-browser compatibility fixes */
+
+/* Fix for Safari dropdown positioning */
+@supports (-webkit-touch-callout: none) {
+  .dropdown-menu {
+    transform: translateY(0);
+  }
+  
+  .nav-menu li.has-dropdown:hover .dropdown-menu {
+    transform: translateY(0);
+  }
+}
+
+/* Fix for Firefox focus styles */
+@-moz-document url-prefix() {
+  .nav-menu a:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.5);
+  }
+}
+
+/* Fix for IE11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .dropdown-menu {
+    display: none;
+  }
+  
+  .nav-menu li.has-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Fix for Edge legacy */
+@supports (-ms-ime-align: auto) {
+  .dropdown-menu {
+    transition: opacity var(--transition);
+  }
+}
+
+/* Ensure touch events work properly on iOS */
+@media (hover: none) {
+  .nav-menu li.has-dropdown > a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

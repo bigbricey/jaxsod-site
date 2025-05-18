@@ -1,0 +1,92 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Set the base directory
+RewriteBase /
+
+# Remove trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Handle SEO-friendly URLs for services
+RewriteRule ^services$ services.php [L]
+RewriteRule ^residential-sod-installation$ residential-sod-installation.php [L]
+RewriteRule ^commercial-sod-installation$ commercial-sod-installation.php [L]
+RewriteRule ^about$ about.php [L]
+RewriteRule ^contact$ contact.php [L]
+RewriteRule ^articles$ articles.php [L]
+
+# Handle neighborhood pages
+RewriteRule ^mandarin-sod-installation$ mandarin-sod-installation.php [L]
+
+# Handle category and tag pages
+RewriteRule ^category/([^/]*)$ category.php?category=$1 [L]
+RewriteRule ^tag/([^/]*)$ tag.php?tag=$1 [L]
+
+# Handle article pages
+RewriteRule ^article/([^/]*)$ article.php?slug=$1 [L]
+
+# Redirect old URLs to new formats (examples)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /services\.php
+RewriteRule ^services\.php$ /services [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /residential-sod-installation\.php
+RewriteRule ^residential-sod-installation\.php$ /residential-sod-installation [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /commercial-sod-installation\.php
+RewriteRule ^commercial-sod-installation\.php$ /commercial-sod-installation [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /about\.php
+RewriteRule ^about\.php$ /about [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /contact\.php
+RewriteRule ^contact\.php$ /contact [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /articles\.php
+RewriteRule ^articles\.php$ /articles [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /mandarin-sod-installation\.php
+RewriteRule ^mandarin-sod-installation\.php$ /mandarin-sod-installation [R=301,L]
+
+# Error pages
+ErrorDocument 404 /404.php
+
+# Cache control for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresDefault "access plus 2 days"
+</IfModule>
+
+# Compress text, HTML, JavaScript, CSS, and XML
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Set security headers
+<IfModule mod_headers.c>
+    # Protect against XSS attacks
+    Header set X-XSS-Protection "1; mode=block"
+    # Disable MIME-type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    # Enable clickjacking protection
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
